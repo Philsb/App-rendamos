@@ -1,4 +1,6 @@
 package com.example.app_rendamos;
+import android.content.Context;
+import android.net.ConnectivityManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText cajaPW;
     private String [] valores;
     public boolean exito;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,6 +22,22 @@ public class MainActivity extends AppCompatActivity {
         cajaDNI=findViewById(R.id.dni);
         cajaPW=findViewById(R.id.editText3);
         valores = new String [2];
+    }
+
+    //Verifica si hay conexion
+    private boolean isNetworkConnected() {
+        ConnectivityManager connectivityManager =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        return connectivityManager.getActiveNetworkInfo().isConnectedOrConnecting();
+    }
+
+    //Verifica si esta conectado a internet
+    public boolean internetIsConnected() {
+        try {
+            String command = "ping -c 1 google.com";
+            return (Runtime.getRuntime().exec(command).waitFor() == 0);
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public void recuperaDatos(View ver){
@@ -32,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                     int dni = Integer.parseInt(usuario);
                 }
                 catch (Exception e) {
-                    Toast.makeText(this, "Usuario inválido", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Usuario inválido", Toast.LENGTH_LONG).show();
                     esNumero=false;
 
                 }
@@ -42,18 +61,18 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             else {
-                Toast.makeText(this, "Usuario inválido", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Usuario inválido", Toast.LENGTH_LONG).show();
             }
             if (contrasenya.length()<=10 && contrasenya.length()>=8 ){
                 valores[1] =contrasenya;
                 exito=exito&&true;
             }
             else{
-                Toast.makeText(this, "Contraseña inválido", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Contraseña inválido", Toast.LENGTH_LONG).show();
             }
         }
         else{
-            Toast.makeText(this, "DEBE ingresar el usuario y la contraseña" ,Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "DEBE ingresar el usuario y la contraseña" ,Toast.LENGTH_LONG).show();
         }
     }
 
