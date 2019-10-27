@@ -92,25 +92,25 @@ public class UserList extends AppCompatActivity {
 
     //Metodo para probar si la lista funca bien
     private void testListView () {
-        mNameList.add(Pair.create("Jeff","Test autentico"));
-        mNameList.add(Pair.create("Javier","Test 666"));
-        mNameList.add(Pair.create("Edwin","Test Cosmico"));
-        mNameList.add(Pair.create("Eric","Test Vaticano"));
-        mNameList.add(Pair.create("Carlitos Johnson","Test Cumbion loco"));
-        mNameList.add(Pair.create("Harina","Test Coca"));
-        mNameList.add(Pair.create("Icaco","Test frutal"));
-        mNameList.add(Pair.create("Sardimar","Test atunero"));
-        mNameList.add(Pair.create("Cacao Garapiñado","Test El dawg"));
-        mNameList.add(Pair.create("Carlitos2 Johnson","Test Cumbion loco"));
-        mNameList.add(Pair.create("Hari123na","Test Coca"));
-        mNameList.add(Pair.create("Ica2co","Test frutal"));
-        mNameList.add(Pair.create("Sardimar","Test atunero"));
-        mNameList.add(Pair.create("Cacao Garapiñado33","Test El dawg"));
-        mNameList.add(Pair.create("Carlitos Johnso32n","Test Cumbion loco"));
-        mNameList.add(Pair.create("Harina123","Test Coca"));
-        mNameList.add(Pair.create("Icac123o","Test frutal"));
-        mNameList.add(Pair.create("Sardi414mar","Test atunero"));
-        mNameList.add(Pair.create("Cacao Gar1414apiñado","Test El dawg"));
+        mNameList.add(Pair.create("Niño1","Test 1"));
+        mNameList.add(Pair.create("Niño2","Test 2"));
+        mNameList.add(Pair.create("Niño3","Test 3"));
+        mNameList.add(Pair.create("Niño4","Test 4"));
+        mNameList.add(Pair.create("Niño5 ","Test 5"));
+        mNameList.add(Pair.create("Niño6","Test 6"));
+        mNameList.add(Pair.create("Niño7","Test 7"));
+        mNameList.add(Pair.create("Niño8","Test 8"));
+        mNameList.add(Pair.create("Niño9","Test 9"));
+        mNameList.add(Pair.create("Niño10","Test 10"));
+        mNameList.add(Pair.create("Niño11","Test 11"));
+        mNameList.add(Pair.create("Niño12","Test 12"));
+        mNameList.add(Pair.create("Niño13","Test 13"));
+        mNameList.add(Pair.create("Niño14","Test 14"));
+        mNameList.add(Pair.create("Niño15","Test 15"));
+        mNameList.add(Pair.create("Niño16","Test 16"));
+        mNameList.add(Pair.create("Niño17","Test 17"));
+        mNameList.add(Pair.create("Niño18","Test 18"));
+        mNameList.add(Pair.create("Niño19","Test 19"));
 
         initRecyclerView();
     }
