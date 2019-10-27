@@ -27,7 +27,6 @@ import retrofit2.http.HEAD;
 public class MainActivity extends AppCompatActivity {
     private EditText cajaDNI;
     private EditText cajaPW;
-    private String [] valores;
     public boolean exito;
 
     @Override
@@ -36,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         cajaDNI=findViewById(R.id.dni);
         cajaPW=findViewById(R.id.editText3);
-        valores = new String [2];
         //startActivity(new Intent(getApplicationContext(), UserList.class));
     }
 
@@ -74,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void recuperaDatos(View ver){
         exito=false;
+        String[] valores = new String [2];
         String usuario = cajaDNI.getText().toString();
         String contrasenya = cajaPW.getText().toString();
         if(!usuario.isEmpty() && !contrasenya.isEmpty() ){
@@ -85,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
                 catch (Exception e) {
                     Toast.makeText(this, "Usuario inválido", Toast.LENGTH_LONG).show();
                     esNumero=false;
+                    exito = false;
 
                 }
                 if(esNumero) {
@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
             }
             else {
                 Toast.makeText(this, "Usuario inválido", Toast.LENGTH_LONG).show();
+                exito = false;
             }
             if (contrasenya.length()<=10 && contrasenya.length()>=8 ){
                 valores[1] =contrasenya;
@@ -101,28 +102,22 @@ public class MainActivity extends AppCompatActivity {
             }
             else{
                 Toast.makeText(this, "Contraseña inválida", Toast.LENGTH_LONG).show();
+                exito = false;
             }
         }
         else{
             Toast.makeText(this, "Debe ingresar el usuario y la contraseña" ,Toast.LENGTH_LONG).show();
+            exito = false;
         }
 
         if(getExitoDatos()){
-            attemptLogin(getUser(), getPass());
+            attemptLogin(valores[0], valores[1]);
         }
 
     }
 
     public boolean getExitoDatos(){
         return this.exito;
-    }
-
-    public String getUser(){
-        return valores[0];
-    }
-
-    public String getPass(){
-        return valores[1];
     }
 
     public void attemptLogin(String username, String password){
