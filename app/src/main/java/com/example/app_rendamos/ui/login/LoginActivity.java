@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -23,12 +24,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.app_rendamos.R;
-import com.example.app_rendamos.ui.login.LoginViewModel;
-import com.example.app_rendamos.ui.login.LoginViewModelFactory;
+import com.example.app_rendamos.data.DataProvider;
+import com.example.app_rendamos.data.model.LogInResponse;
+import com.example.app_rendamos.data.model.LoggedInUser;
+import com.example.app_rendamos.data.APIClient;
+import com.google.gson.Gson;
+
+import org.json.JSONObject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
+    private Object LogIn;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (loginFormState.getPasswordError() != null) {
                     passwordEditText.setError(getString(loginFormState.getPasswordError()));
                 }
+
             }
         });
 
@@ -117,6 +129,7 @@ public class LoginActivity extends AppCompatActivity {
                         passwordEditText.getText().toString());
             }
         });
+
     }
 
     private void updateUiWithUser(LoggedInUserView model) {
@@ -128,4 +141,42 @@ public class LoginActivity extends AppCompatActivity {
     private void showLoginFailed(@StringRes Integer errorString) {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
     }
+
+    private void attemptLogin(){
+        APIClient client = DataProvider.getApiClient();
+        Call<LogInResponse> call = client.logInCall(new LoggedInUser("1111","Te$t1234"));
+        call.enqueue(new Callback<LogInResponse>() {
+            @Override
+            public void onResponse(Call<LogInResponse> call, Response<LogInResponse> response) {
+                try{
+
+                }   catch(Exception e){
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<LogInResponse> call, Throwable t) {
+                Log.d("d","onFailure");
+            }
+        });
+    }
+
+    /*private void attemptLogin() {
+        Log.d("Error:", "AttemptLogin");
+        APIClient client = DataProvider.getApiClient();
+        Call<LoggedInUser> logInCall = client.logInCall(new LoggedInUser("1111","Te$t1234"));
+        logInCall.enqueue(new Callback<LoggedInUser>() {
+            @Override
+            public void onResponse(Response<LogInResponse> response) {
+                Log.d("LogIn", "Entre al response");
+                Log.d("Respuesta", response.body().toString());
+            }
+            @Override
+            public void onFailure(Call<LogInResponse> call, Throwable t){
+                Log.d("UserTableActivity", "API call getUsers failed, set a breakpoint here to check the throwable's message");
+            }
+        });
+    }*/
 }
