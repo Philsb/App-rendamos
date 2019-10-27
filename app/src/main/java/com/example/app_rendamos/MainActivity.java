@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         cajaDNI=findViewById(R.id.dni);
         cajaPW=findViewById(R.id.editText3);
         valores = new String [2];
+        startActivity(new Intent(getApplicationContext(), UserList.class));
     }
 
     @Override
