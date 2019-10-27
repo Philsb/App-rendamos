@@ -74,6 +74,9 @@ public class MainActivity extends AppCompatActivity {
         else{
             Toast.makeText(this, "DEBE ingresar el usuario y la contraseña" ,Toast.LENGTH_LONG).show();
         }
+
+        //Validar con base de datos
+        //intent cambia de activity a listView
     }
 
     public boolean getExitoDatos(){
