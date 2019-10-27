@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
@@ -16,7 +15,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.app_rendamos.data.APIClient;
+import com.example.app_rendamos.data.DataProvider;
+import com.example.app_rendamos.data.model.StudentResponse;
+
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class UserList extends AppCompatActivity {
 
@@ -28,6 +36,7 @@ public class UserList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_list);
         testListView();
+        getMyStudents();
     }
 
     @Override
@@ -111,5 +120,33 @@ public class UserList extends AppCompatActivity {
         RecyclerViewAdapter  adapter = new RecyclerViewAdapter(this, mNameList);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    public void getMyStudents(){
+        APIClient client = DataProvider.getApiClient();
+        Call<List<StudentResponse>> call = client.getAllStudents();
+        call.enqueue(new Callback<List<StudentResponse>>() {
+            @Override
+            public void onResponse(Call<List<StudentResponse>> call, Response<List<StudentResponse>> response) {
+                try{
+                    if (response.body() != null){
+                        // Credenciales correctos
+                        Intent intent = new Intent(getApplicationContext(), UserList.class);
+                        startActivity(intent);
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(), "El usuario y/o la contraseña son inválidos", Toast.LENGTH_LONG).show();
+                    }
+                }   catch(Exception e){
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<StudentResponse>> call, Throwable t) {
+                Log.d("d","onFailure");
+            }
+        });
     }
 }

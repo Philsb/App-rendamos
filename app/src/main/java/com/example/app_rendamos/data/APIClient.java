@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.app_rendamos.data.model.LogInResponse;
 import com.example.app_rendamos.data.model.LoggedInUser;
+import com.example.app_rendamos.data.model.StudentResponse;
 
 import java.util.List;
 
@@ -17,7 +18,8 @@ import retrofit2.http.Path;
 
 public interface APIClient {
 
-
+    @GET("/ApiServer/api/Student")
+    Call<List<StudentResponse>> getAllStudents();
 
     @POST("/ApiServer/api/login")
     Call<LogInResponse> logInCall(@Body LoggedInUser body);
