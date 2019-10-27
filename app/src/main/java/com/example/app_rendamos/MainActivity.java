@@ -1,5 +1,7 @@
 package com.example.app_rendamos;
+
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -104,16 +106,17 @@ public class MainActivity extends AppCompatActivity {
         return valores[1];
     }
 
-    private void attemptLogin(String username, String password){
+    public void attemptLogin(String username, String password){
         APIClient client = DataProvider.getApiClient();
         Call<LogInResponse> call = client.logInCall(new LoggedInUser(username,password));
         call.enqueue(new Callback<LogInResponse>() {
             @Override
             public void onResponse(Call<LogInResponse> call, Response<LogInResponse> response) {
                 try{
-
                     if (response.body().getUserInfo() != null){
                         // Credenciales correctos
+                        Intent intent = new Intent(getApplicationContext(), UserList.class);
+                        startActivity(intent);
                     }
                 }   catch(Exception e){
                     e.printStackTrace();
