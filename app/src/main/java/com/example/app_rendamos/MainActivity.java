@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         String usuario = cajaDNI.getText().toString();
         String contrasenya = cajaPW.getText().toString();
         if(!usuario.isEmpty() && !contrasenya.isEmpty() ){
-            if (usuario.length()<10) {
+            if (usuario.length()<=10) {
                 boolean esNumero=true;
                 try {
                     int dni = Integer.parseInt(usuario);
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             else {
-                Toast.makeText(this, "Usuario inválido", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Usuario inválido: máximo 10 dígitos", Toast.LENGTH_LONG).show();
                 exito = false;
             }
             if (contrasenya.length()<=10 && contrasenya.length()>=8 ){
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                 exito=exito&&true;
             }
             else{
-                Toast.makeText(this, "Contraseña inválida", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Contraseña inválida: debe tener entre 8 y 10 caracteres", Toast.LENGTH_LONG).show();
                 exito = false;
             }
         }
