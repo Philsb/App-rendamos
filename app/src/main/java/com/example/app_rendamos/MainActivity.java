@@ -18,6 +18,7 @@ import com.example.app_rendamos.data.model.LoggedInUser;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.HEAD;
 
 public class MainActivity extends AppCompatActivity {
     private EditText cajaDNI;
@@ -84,9 +85,11 @@ public class MainActivity extends AppCompatActivity {
         else{
             Toast.makeText(this, "DEBE ingresar el usuario y la contraseña" ,Toast.LENGTH_LONG).show();
         }
+
         if(getExitoDatos()){
             attemptLogin(getUser(), getPass());
         }
+
     }
 
     public boolean getExitoDatos(){
