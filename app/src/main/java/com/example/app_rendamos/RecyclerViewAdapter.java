@@ -59,16 +59,26 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return mNameList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView name;
         TextView test;
         LinearLayout parentLayout;
+        public View mItemView;
+        public  static int position;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.textView3);
             test = itemView.findViewById(R.id.textView4);
+            mItemView = itemView;
             parentLayout = itemView.findViewById(R.id.parent_layout);
+            TextView row = itemView.findViewById(R.id.row);
+            row.setText(String.valueOf(getAdapterPosition()));
+        }
+
+        @Override
+        public void onClick(View v) {
+
         }
     }
 }
