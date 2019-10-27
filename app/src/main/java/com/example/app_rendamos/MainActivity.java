@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         cajaDNI=findViewById(R.id.dni);
         cajaPW=findViewById(R.id.editText3);
         valores = new String [2];
-        startActivity(new Intent(getApplicationContext(), UserList.class));
+        //startActivity(new Intent(getApplicationContext(), UserList.class));
     }
 
     @Override
