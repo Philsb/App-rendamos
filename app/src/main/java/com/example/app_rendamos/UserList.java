@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.app_rendamos.data.APIClient;
 import com.example.app_rendamos.data.Authentication;
 import com.example.app_rendamos.data.DataProvider;
+import com.example.app_rendamos.data.model.LogInResponse;
 import com.example.app_rendamos.data.model.StudentResponse;
 import com.google.gson.Gson;
 
@@ -130,4 +131,5 @@ public class UserList extends AppCompatActivity {
             }
         });
     }
+
 }

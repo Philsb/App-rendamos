@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.app_rendamos.data.model.LogInResponse;
 import com.example.app_rendamos.data.model.LoggedInUser;
+import com.example.app_rendamos.data.model.ResultsResponse;
 import com.example.app_rendamos.data.model.StudentResponse;
 
 import java.util.List;
@@ -18,6 +19,9 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface APIClient {
+
+    @POST("/ApiServer/api/Result/AddResults")
+    Call<ResultsResponse> resultsCall(@Header("Authorization") String authToken);
 
     @GET("/ApiServer/api/Student/GetMyStudents")
     Call<List<StudentResponse>> getAllStudents(@Header("Authorization") String authToken);
