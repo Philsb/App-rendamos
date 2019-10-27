@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -29,9 +30,10 @@ public class StudentInfoActivity extends AppCompatActivity {
         String jsonStr = getIntent().getExtras().getString("serialize_data");
         StudentResponse studentResponse = new Gson().fromJson(jsonStr, StudentResponse.class);
         nombre.setText(studentResponse.getFirstName() + " " + studentResponse.getLastName());
-        fecha.setText(studentResponse.getDob());
+        fecha.setText(studentResponse.getDob().substring(0,10));
         semanas.setText(String.valueOf(studentResponse.getEarlyBirthAmount()));
         test.setText(studentResponse.getForm().getName());
+        Log.d("Fdn", studentResponse.getDob());
     }
 
     @Override
