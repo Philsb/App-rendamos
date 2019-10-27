@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         if (!isNetworkConnected()){
-              Toast.makeText(getApplicationContext(), "La aplicación necesita de una conexión a internet para funcionar", Toast.LENGTH_LONG);
+              Toast.makeText(getApplicationContext(), "La aplicación necesita de una conexión a internet para funcionar", Toast.LENGTH_LONG).show();
             }
     }
 
@@ -131,13 +131,12 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<LogInResponse> call, Response<LogInResponse> response) {
                 try{
                     if (response.body() != null && response.body().getUserInfo() != null){
-                        Log.d("Login", response.body().getLoginData().getAccess_token());
                         // Credenciales correctos
                         Intent intent = new Intent(getApplicationContext(), UserList.class);
                         startActivity(intent);
                     }
                     else{
-                        Toast.makeText(getApplicationContext(), "El usuario y/o la contraseña son inválidos", Toast.LENGTH_SHORT);
+                        Toast.makeText(getApplicationContext(), "El usuario y/o la contraseña son inválidos", Toast.LENGTH_LONG).show();
                     }
                 }   catch(Exception e){
                     e.printStackTrace();

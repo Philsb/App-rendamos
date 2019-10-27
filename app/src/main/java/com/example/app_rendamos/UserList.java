@@ -30,7 +30,7 @@ public class UserList extends AppCompatActivity {
 
         if (id == R.id.Salir) {
             AlertDialog.Builder builder = new AlertDialog.Builder(UserList.this);
-            builder.setMessage("¿Desea salir?").setPositiveButton ("Ok", new DialogInterface.OnClickListener() {
+            builder.setMessage("¿Desea salir de la aplicación?").setPositiveButton ("Aceptar", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             //TODO devolverse a log in screen
@@ -52,7 +52,7 @@ public class UserList extends AppCompatActivity {
         if ((keyCode == KeyEvent.KEYCODE_BACK))
         {
             AlertDialog.Builder builder = new AlertDialog.Builder(UserList.this);
-            builder.setMessage("¿Desea salir?").setPositiveButton ("Ok", new DialogInterface.OnClickListener() {
+            builder.setMessage("¿Desea salir de la aplicación?").setPositiveButton ("Aceptar", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             UserList.super.onBackPressed();
