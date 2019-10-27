@@ -2,20 +2,31 @@ package com.example.app_rendamos;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class UserList extends AppCompatActivity {
+
+    private ArrayList<Pair<String,String>> mNameList = new ArrayList<Pair<String,String>>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("UserList", "onCreate.");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_list);
+        testListView();
     }
 
     @Override
@@ -34,7 +45,8 @@ public class UserList extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             //TODO devolverse a log in screen
-                            Toast.makeText(UserList.this, "Ir a login screen", Toast.LENGTH_SHORT).show();
+                           // startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            finish();
                         }
 
                     }
@@ -68,5 +80,35 @@ public class UserList extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
+    //Metodo para probar si la lista funca bien
+    private void testListView () {
+        mNameList.add(Pair.create("Jeff","Test autentico"));
+        mNameList.add(Pair.create("Javier","Test 666"));
+        mNameList.add(Pair.create("Edwin","Test Cosmico"));
+        mNameList.add(Pair.create("Eric","Test Vaticano"));
+        mNameList.add(Pair.create("Carlitos Johnson","Test Cumbion loco"));
+        mNameList.add(Pair.create("Harina","Test Coca"));
+        mNameList.add(Pair.create("Icaco","Test frutal"));
+        mNameList.add(Pair.create("Sardimar","Test atunero"));
+        mNameList.add(Pair.create("Cacao Garapiñado","Test El dawg"));
+        mNameList.add(Pair.create("Carlitos2 Johnson","Test Cumbion loco"));
+        mNameList.add(Pair.create("Hari123na","Test Coca"));
+        mNameList.add(Pair.create("Ica2co","Test frutal"));
+        mNameList.add(Pair.create("Sardimar","Test atunero"));
+        mNameList.add(Pair.create("Cacao Garapiñado33","Test El dawg"));
+        mNameList.add(Pair.create("Carlitos Johnso32n","Test Cumbion loco"));
+        mNameList.add(Pair.create("Harina123","Test Coca"));
+        mNameList.add(Pair.create("Icac123o","Test frutal"));
+        mNameList.add(Pair.create("Sardi414mar","Test atunero"));
+        mNameList.add(Pair.create("Cacao Gar1414apiñado","Test El dawg"));
 
+        initRecyclerView();
+    }
+    private void initRecyclerView(){
+        Log.d("UserList", "Init Recycler View .");
+        RecyclerView recyclerView = findViewById(R.id.recyclerv_view);
+        RecyclerViewAdapter  adapter = new RecyclerViewAdapter(this, mNameList);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
 }
