@@ -2,6 +2,7 @@ package com.example.app_rendamos;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -134,6 +135,10 @@ public class MainActivity extends AppCompatActivity {
                 try{
                     if (response.body() != null && response.body().getUserInfo() != null){
                         // Credenciales correctos
+                        String authToken = String.valueOf(response.body().getLoginData().getAccess_token());
+                        SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
+                        preferences.edit().putString("token", authToken).commit();
+                        // To retrieve use String token = preferences.getString("token","");
                         Intent intent = new Intent(getApplicationContext(), UserList.class);
                         startActivity(intent);
                     }
