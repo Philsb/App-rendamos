@@ -31,8 +31,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class UserList extends AppCompatActivity {
-
-    private ArrayList<Pair<String,String>> mNameList = new ArrayList<Pair<String,String>>();
     private ArrayList<StudentResponse> studentResponse = new ArrayList<StudentResponse>();
 
     @Override
@@ -97,22 +95,10 @@ public class UserList extends AppCompatActivity {
     private void initRecyclerView(){
         Log.d("UserList", "Init Recycler View .");
         RecyclerView recyclerView = findViewById(R.id.recyclerv_view);
-        RecyclerViewAdapter  adapter = new RecyclerViewAdapter(this, mNameList);
+        RecyclerViewAdapter  adapter = new RecyclerViewAdapter(this, studentResponse);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
-
-    public void accionesBotonNino(View ver){
-        int pos = RecyclerViewAdapter.ViewHolder.position;
-        Intent act = new Intent(this,StudentInfoActivity.class);
-        act.putExtra("serialize_data", new Gson().toJson(studentResponse.get(pos)));
-        startActivity(act);
-    }
-
-   /* public void accionesBotonTest(View ver){
-        Intent act = new Intent(this,StudentInfoActivity.class);
-        startActivity(act);
-    }*/
 
     public void getMyStudents(){
         APIClient client = DataProvider.getApiClient(getApplicationContext());
@@ -125,7 +111,6 @@ public class UserList extends AppCompatActivity {
                         if(response.body().size() > 0) {
                             for (StudentResponse student : response.body()) {
                                 //Log.d("Estudiante: ", student.getFirstName() + " " + student.getLastName());
-                                mNameList.add(Pair.create(student.getFirstName() + " " + student.getLastName(), student.getForm().getName()));
                                 studentResponse.add(student);
                             }
                         }

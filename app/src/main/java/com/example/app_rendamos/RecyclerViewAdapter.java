@@ -1,6 +1,7 @@
 package com.example.app_rendamos;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -13,14 +14,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.app_rendamos.data.model.StudentResponse;
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>{
 
-    private ArrayList<Pair<String,String>> mNameList = new ArrayList<Pair<String,String>>();
+    private ArrayList<StudentResponse> mNameList = new ArrayList<>();
     private Context mContext;
 
-    public RecyclerViewAdapter (Context context, ArrayList<Pair<String,String>> stringPairsList){
+    public RecyclerViewAdapter (Context context, ArrayList<StudentResponse> stringPairsList){
         mContext = context;
         mNameList = stringPairsList;
     }
@@ -29,22 +33,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item, parent, false);
-        ViewHolder holder = new ViewHolder(view);
+        ViewHolder holder = new ViewHolder(view, this);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         Log.d("Recycler View Adapter", "onBindViewHolder: called.");
-        holder.name.setText(mNameList.get(position).first);
-        holder.test.setText(mNameList.get(position).second);
+        holder.name.setText(mNameList.get(position).getFirstName() + " " + mNameList.get(position).getLastName());
+        holder.test.setText(mNameList.get(position).getForm().getName());
+        holder.position = position;
 
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("Recycler View Adapter", "onClick: clicked on: " + mNameList.get(position).first);
+                Log.d("Recycler View Adapter", "onClick: clicked on: " + mNameList.get(position).getFirstName() + " " + mNameList.get(position).getLastName());
 
-                Toast.makeText(mContext, mNameList.get(position).first, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, mNameList.get(position).getFirstName() + " " + mNameList.get(position).getLastName(), Toast.LENGTH_SHORT).show();
 
                 //Intent intent = new Intent(mContext, GalleryActivity.class);
                 //intent.putExtra("image_url", mImages.get(position));
@@ -59,26 +64,34 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return mNameList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    private void goToStudentInfo(Integer position){
+        StudentResponse student = mNameList.get(position);
+        Intent studentInfo = new Intent(mContext, StudentInfoActivity.class);
+        studentInfo.putExtra("serialize_data", new Gson().toJson(mNameList.get(position)));
+        mContext.startActivity(studentInfo);
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView name;
         TextView test;
         LinearLayout parentLayout;
-        public View mItemView;
-        public  static int position;
-        public ViewHolder(@NonNull View itemView) {
+        private final RecyclerViewAdapter adapter;
+        public Integer position;
+        public ViewHolder(@NonNull View itemView, final RecyclerViewAdapter adapter) {
             super(itemView);
             name = itemView.findViewById(R.id.textView3);
             test = itemView.findViewById(R.id.textView4);
-            mItemView = itemView;
+            this.adapter = adapter;
             parentLayout = itemView.findViewById(R.id.parent_layout);
-            TextView row = itemView.findViewById(R.id.row);
-            row.setText(String.valueOf(getAdapterPosition()));
-        }
-
-        @Override
-        public void onClick(View v) {
-
+            name.setOnClickListener(new View.OnClickListener(){
+               @Override
+               public void onClick(View view){
+                   if(getAdapterPosition() != -1){
+                       adapter.goToStudentInfo(getAdapterPosition());
+                   }
+               }
+            });
         }
     }
 }
