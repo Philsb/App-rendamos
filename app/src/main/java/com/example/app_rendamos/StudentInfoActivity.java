@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -37,6 +38,12 @@ public class StudentInfoActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
@@ -47,7 +54,7 @@ public class StudentInfoActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             //TODO devolverse a log in screen
                             Intent act =new Intent(getApplicationContext(), MainActivity.class);
-                            act.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            act.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
                         }
