@@ -13,6 +13,7 @@ import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.app_rendamos.data.APIClient;
@@ -20,7 +21,9 @@ import com.example.app_rendamos.data.Authentication;
 import com.example.app_rendamos.data.DataProvider;
 import com.example.app_rendamos.data.model.LogInResponse;
 import com.example.app_rendamos.data.model.StudentResponse;
+import com.google.gson.Gson;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,8 +32,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class UserList extends AppCompatActivity {
-
-    private ArrayList<Pair<String,String>> mNameList = new ArrayList<Pair<String,String>>();
+    private ArrayList<StudentResponse> studentResponse = new ArrayList<StudentResponse>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,34 +93,10 @@ public class UserList extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    //Metodo para probar si la lista funca bien
-    private void testListView () {
-        mNameList.add(Pair.create("Niño1","Test 1"));
-        mNameList.add(Pair.create("Niño2","Test 2"));
-        mNameList.add(Pair.create("Niño3","Test 3"));
-        mNameList.add(Pair.create("Niño4","Test 4"));
-        mNameList.add(Pair.create("Niño5 ","Test 5"));
-        mNameList.add(Pair.create("Niño6","Test 6"));
-        mNameList.add(Pair.create("Niño7","Test 7"));
-        mNameList.add(Pair.create("Niño8","Test 8"));
-        mNameList.add(Pair.create("Niño9","Test 9"));
-        mNameList.add(Pair.create("Niño10","Test 10"));
-        mNameList.add(Pair.create("Niño11","Test 11"));
-        mNameList.add(Pair.create("Niño12","Test 12"));
-        mNameList.add(Pair.create("Niño13","Test 13"));
-        mNameList.add(Pair.create("Niño14","Test 14"));
-        mNameList.add(Pair.create("Niño15","Test 15"));
-        mNameList.add(Pair.create("Niño16","Test 16"));
-        mNameList.add(Pair.create("Niño17","Test 17"));
-        mNameList.add(Pair.create("Niño18","Test 18"));
-        mNameList.add(Pair.create("Niño19","Test 19"));
-
-        initRecyclerView();
-    }
     private void initRecyclerView(){
         Log.d("UserList", "Init Recycler View .");
         RecyclerView recyclerView = findViewById(R.id.recyclerv_view);
-        RecyclerViewAdapter  adapter = new RecyclerViewAdapter(this, mNameList);
+        RecyclerViewAdapter  adapter = new RecyclerViewAdapter(this, studentResponse);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -134,7 +112,7 @@ public class UserList extends AppCompatActivity {
                         if(response.body().size() > 0) {
                             for (StudentResponse student : response.body()) {
                                 //Log.d("Estudiante: ", student.getFirstName() + " " + student.getLastName());
-                                mNameList.add(Pair.create(student.getFirstName() + " " + student.getLastName(), student.getForm().getName()));
+                                studentResponse.add(student);
                             }
                         }
                     }
