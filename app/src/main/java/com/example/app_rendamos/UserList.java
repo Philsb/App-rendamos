@@ -130,13 +130,15 @@ public class UserList extends AppCompatActivity {
             public void onResponse(Call<List<StudentResponse>> call, Response<List<StudentResponse>> response) {
                 try{
                     if(response.body() != null){
-                        for(StudentResponse student: response.body()){
-                            //Log.d("Estudiante: ", student.getFirstName() + " " + student.getLastName());
-                            mNameList.add(Pair.create(student.getFirstName() + " " + student.getLastName(), "Vacio" ));
+                        if(response.body().size() > 0) {
+                            for (StudentResponse student : response.body()) {
+                                //Log.d("Estudiante: ", student.getFirstName() + " " + student.getLastName());
+                                mNameList.add(Pair.create(student.getFirstName() + " " + student.getLastName(), student.getForm().getName()));
+                            }
                         }
                     }
                     else{
-
+                        Toast.makeText(UserList.this, "No posee niños asociados.", Toast.LENGTH_SHORT).show();
                     }
                 }   catch(Exception e){
                     e.printStackTrace();
