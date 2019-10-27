@@ -5,9 +5,19 @@ import android.net.ConnectivityManager;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.app_rendamos.data.APIClient;
+import com.example.app_rendamos.data.DataProvider;
+import com.example.app_rendamos.data.model.LogInResponse;
+import com.example.app_rendamos.data.model.LoggedInUser;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     private EditText cajaDNI;
@@ -74,6 +84,9 @@ public class MainActivity extends AppCompatActivity {
         else{
             Toast.makeText(this, "DEBE ingresar el usuario y la contraseña" ,Toast.LENGTH_LONG).show();
         }
+        if(getExitoDatos()){
+            attemptLogin(getUser(), getPass());
+        }
     }
 
     public boolean getExitoDatos(){
@@ -86,5 +99,29 @@ public class MainActivity extends AppCompatActivity {
 
     public String getPass(){
         return valores[1];
+    }
+
+    private void attemptLogin(String username, String password){
+        APIClient client = DataProvider.getApiClient();
+        Call<LogInResponse> call = client.logInCall(new LoggedInUser(username,password));
+        call.enqueue(new Callback<LogInResponse>() {
+            @Override
+            public void onResponse(Call<LogInResponse> call, Response<LogInResponse> response) {
+                try{
+
+                    if (response.body().getUserInfo() != null){
+                        // Credenciales correctos
+                    }
+                }   catch(Exception e){
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<LogInResponse> call, Throwable t) {
+                Log.d("d","onFailure");
+            }
+        });
     }
 }
