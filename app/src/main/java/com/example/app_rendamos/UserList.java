@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.app_rendamos.data.APIClient;
+import com.example.app_rendamos.data.Authentication;
 import com.example.app_rendamos.data.DataProvider;
 import com.example.app_rendamos.data.model.StudentResponse;
 
@@ -35,7 +36,6 @@ public class UserList extends AppCompatActivity {
         Log.d("UserList", "onCreate.");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_list);
-        testListView();
         getMyStudents();
     }
 
@@ -123,24 +123,25 @@ public class UserList extends AppCompatActivity {
     }
 
     public void getMyStudents(){
-        APIClient client = DataProvider.getApiClient();
-        Call<List<StudentResponse>> call = client.getAllStudents();
+        APIClient client = DataProvider.getApiClient(getApplicationContext());
+        Call<List<StudentResponse>> call = client.getAllStudents("Bearer " + Authentication.getDefaults("token", getApplicationContext()));
         call.enqueue(new Callback<List<StudentResponse>>() {
             @Override
             public void onResponse(Call<List<StudentResponse>> call, Response<List<StudentResponse>> response) {
                 try{
-                    if (response.body() != null){
-                        // Credenciales correctos
-                        Intent intent = new Intent(getApplicationContext(), UserList.class);
-                        startActivity(intent);
+                    if(response.body() != null){
+                        for(StudentResponse student: response.body()){
+                            //Log.d("Estudiante: ", student.getFirstName() + " " + student.getLastName());
+                            mNameList.add(Pair.create(student.getFirstName() + " " + student.getLastName(), "Vacio" ));
+                        }
                     }
                     else{
-                        Toast.makeText(getApplicationContext(), "El usuario y/o la contraseña son inválidos", Toast.LENGTH_LONG).show();
+
                     }
                 }   catch(Exception e){
                     e.printStackTrace();
                 }
-
+                initRecyclerView();
             }
 
             @Override

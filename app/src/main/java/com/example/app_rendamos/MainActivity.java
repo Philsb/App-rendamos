@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.app_rendamos.data.APIClient;
+import com.example.app_rendamos.data.Authentication;
 import com.example.app_rendamos.data.DataProvider;
 import com.example.app_rendamos.data.model.LogInResponse;
 import com.example.app_rendamos.data.model.LoggedInUser;
@@ -122,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void attemptLogin(String username, String password){
-        APIClient client = DataProvider.getApiClient();
+        APIClient client = DataProvider.getApiClient(getApplicationContext());
         Call<LogInResponse> call = client.logInCall(new LoggedInUser(username,password));
         call.enqueue(new Callback<LogInResponse>() {
             @Override
@@ -131,8 +132,7 @@ public class MainActivity extends AppCompatActivity {
                     if (response.body() != null && response.body().getUserInfo() != null){
                         // Credenciales correctos
                         String authToken = String.valueOf(response.body().getLoginData().getAccess_token());
-                        SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
-                        preferences.edit().putString("token", authToken).commit();
+                        Authentication.setDefaults("token", authToken, getApplicationContext());
                         // To retrieve use String token = preferences.getString("token","");
                         Intent intent = new Intent(getApplicationContext(), UserList.class);
                         startActivity(intent);
