@@ -6,6 +6,7 @@ import android.net.ConnectivityManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -37,10 +38,26 @@ public class MainActivity extends AppCompatActivity {
         valores = new String [2];
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (!isNetworkConnected()){
+              Toast.makeText(getApplicationContext(), "La aplicación necesita de una conexión a internet para funcionar", Toast.LENGTH_LONG);
+            }
+    }
+
     //Verifica si hay conexion
     private boolean isNetworkConnected() {
-        ConnectivityManager connectivityManager =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        return connectivityManager.getActiveNetworkInfo().isConnectedOrConnecting();
+        boolean connected = false;
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        if((connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED) ||
+                (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED)) {
+            //we are connected to a network
+            connected = true;
+        }
+        else
+            connected = false;
+        return connected;
     }
 
     //Verifica si esta conectado a internet
@@ -81,11 +98,11 @@ public class MainActivity extends AppCompatActivity {
                 exito=exito&&true;
             }
             else{
-                Toast.makeText(this, "Contraseña inválido", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Contraseña inválida", Toast.LENGTH_LONG).show();
             }
         }
         else{
-            Toast.makeText(this, "DEBE ingresar el usuario y la contraseña" ,Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Debe ingresar el usuario y la contraseña" ,Toast.LENGTH_LONG).show();
         }
 
         if(getExitoDatos()){
@@ -113,10 +130,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<LogInResponse> call, Response<LogInResponse> response) {
                 try{
-                    if (response.body().getUserInfo() != null){
+                    if (response.body() != null && response.body().getUserInfo() != null){
+                        Log.d("Login", response.body().getLoginData().getAccess_token());
                         // Credenciales correctos
                         Intent intent = new Intent(getApplicationContext(), UserList.class);
                         startActivity(intent);
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(), "El usuario y/o la contraseña son inválidos", Toast.LENGTH_SHORT);
                     }
                 }   catch(Exception e){
                     e.printStackTrace();

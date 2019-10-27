@@ -34,7 +34,7 @@ public class UserList extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             //TODO devolverse a log in screen
-                            Toast.makeText(UserList.this, "Ir a login screen", Toast.LENGTH_SHORT).show();
+                            finish();
                         }
 
                     }

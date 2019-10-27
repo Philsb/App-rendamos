@@ -16,13 +16,13 @@ import retrofit2.http.Path;
  * Data class that captures user information for logged in users retrieved from LoginRepository
  */
 public class LoggedInUser {
-    @SerializedName("username")
-    @Expose
-    private String username;
-
     @SerializedName("password")
     @Expose
     private String password;
+
+    @SerializedName("username")
+    @Expose
+    private String username;
 
     public LoggedInUser(String username, String password) {
         this.username = username;
